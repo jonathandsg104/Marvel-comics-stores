@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../stores/slices/cartSlice";
 import styled from "styled-components";
 import { generateMockComics, markRandomRares, Comic } from "../utils/sample-data";
+import { fetchMarvelComics } from "../utils/fetch-marvel-comics";
 
 // Styled Components para a grid de HQs e paginação
 const Container = styled.div`
@@ -125,7 +126,10 @@ const HomePage: React.FC = () => {
   const [page, setPage] = useState(1);
   // Gerar HQs mockadas apenas no client para evitar erro de hidratação
   useEffect(() => {
-    setComics(markRandomRares(generateMockComics(30)));
+    // Busca HQs reais da Marvel, com fallback para mock se der erro
+    fetchMarvelComics(30, 0)
+      .then(setComics)
+      .catch(() => setComics(markRandomRares(generateMockComics(30))));
   }, []);
   // Calcular HQs da página atual
   const start = (page - 1) * ITEMS_PER_PAGE;
