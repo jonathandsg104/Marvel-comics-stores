@@ -119,7 +119,14 @@ const PageButton = styled.button`
 const ITEMS_PER_PAGE = 8;
 
 
+// Se estiver na rota '/', redireciona para /home
 const HomePage: React.FC = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/") {
+      router.replace("/home");
+    }
+  }, [router]);
   // Estado para HQs mockadas
   const [comics, setComics] = useState<Comic[]>([]);
   // Estado para página atual
@@ -138,7 +145,7 @@ const HomePage: React.FC = () => {
   const totalPages = Math.ceil(comics.length / ITEMS_PER_PAGE);
 
   // Hook do Next.js para navegação
-  const router = useRouter();
+  // const router = useRouter(); // Removido duplicado
 
   // Função para navegar para a página de detalhes ao clicar em uma HQ
   const handleCardClick = (id: number) => {
