@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../stores/slices/cartSlice";
@@ -10,6 +10,9 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  @media (max-width: 600px) {
+    padding: 1rem 0.2rem;
+  }
 `;
 const Title = styled.h1`
   text-align: center;
@@ -19,6 +22,14 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.2rem;
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 const Card = styled.div`
   background: #fff;
@@ -34,11 +45,21 @@ const Card = styled.div`
     box-shadow: 0 4px 16px rgba(230,36,41,0.15);
     transform: translateY(-2px);
   }
+  @media (max-width: 600px) {
+    padding: 0.7rem 0.3rem;
+    min-width: 0;
+  }
 `;
 const Img = styled.img`
   width: 100%;
   max-width: 180px;
   border-radius: 6px;
+  object-fit: cover;
+  aspect-ratio: 2/3;
+  background: #eee;
+  @media (max-width: 600px) {
+    max-width: 120px;
+  }
 `;
 const RareBadge = styled.span`
   background: #e62429;
@@ -89,10 +110,14 @@ const ITEMS_PER_PAGE = 8;
 
 
 const HomePage: React.FC = () => {
-  // Gerar HQs mockadas e marcar 10% como raras
-  const comics = useMemo(() => markRandomRares(generateMockComics(30)), []);
+  // Estado para HQs mockadas
+  const [comics, setComics] = useState<Comic[]>([]);
   // Estado para página atual
   const [page, setPage] = useState(1);
+  // Gerar HQs mockadas apenas no client para evitar erro de hidratação
+  useEffect(() => {
+    setComics(markRandomRares(generateMockComics(30)));
+  }, []);
   // Calcular HQs da página atual
   const start = (page - 1) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
