@@ -25,6 +25,9 @@ const CartContainer = styled.div`
   z-index: 100;
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transform: translateX(40px);
+  animation: cartFadeIn 0.7s cubic-bezier(.4,1.3,.6,1) forwards;
   @media (max-width: 600px) {
     width: 100vw;
     left: 0;
@@ -36,6 +39,20 @@ const CartContainer = styled.div`
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     font-size: 0.97rem;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.10);
+    transform: translateY(40px);
+    animation: cartFadeInMobile 0.7s cubic-bezier(.4,1.3,.6,1) forwards;
+  }
+  @keyframes cartFadeIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes cartFadeInMobile {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 const CartTitle = styled.h2`
