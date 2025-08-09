@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
@@ -16,11 +16,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 600px) {
+    max-width: 100vw;
+    margin: 0.5rem 0;
+    padding: 1rem 0.2rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
 `;
 const Img = styled.img`
   width: 100%;
   max-width: 300px;
   border-radius: 6px;
+  object-fit: cover;
+  aspect-ratio: 2/3;
+  background: #eee;
+  @media (max-width: 600px) {
+    max-width: 160px;
+  }
 `;
 const RareBadge = styled.span`
   background: #e62429;
@@ -63,8 +76,13 @@ const ComicDetail: React.FC = () => {
   // Pega o id da HQ pela URL
   const { id } = router.query;
 
-  // Gera os dados mockados (igual à listagem)
-  const comics: Comic[] = React.useMemo(() => markRandomRares(generateMockComics(30)), []);
+
+  // Estado para HQs mockadas
+  const [comics, setComics] = useState<Comic[]>([]);
+  // Gerar HQs mockadas apenas no client para evitar erro de hidratação
+  useEffect(() => {
+    setComics(markRandomRares(generateMockComics(30)));
+  }, []);
   // Busca a HQ pelo id
   const comic = comics.find((c) => c.id === Number(id));
 
