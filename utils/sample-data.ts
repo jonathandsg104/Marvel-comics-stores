@@ -13,16 +13,16 @@ export type Comic = {
 // Função utilitária para gerar HQs mockadas
 // Lista de imagens reais de HQs Marvel (mock)
 const marvelCovers = [
-  "https://static.wikia.nocookie.net/marveldatabase/images/2/2e/Avengers_Vol_1_4.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/9/9e/Amazing_Spider-Man_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/6/6c/Fantastic_Four_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/7/7e/X-Men_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/2/2d/Black_Panther_Vol_6_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/7/7d/Thor_Vol_1_126.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/2/2a/Captain_America_Comics_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/2/2c/Iron_Man_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/6/6e/Hulk_Vol_1_1.jpg",
-  "https://static.wikia.nocookie.net/marveldatabase/images/2/2b/Daredevil_Vol_1_1.jpg",
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1519121782439-2c5f2c2a3c8b?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1519121782439-2c5f2c2a3c8b?auto=format&fit=crop&w=400&q=80",
 ];
 
 export function generateMockComics(count: number = 30): Comic[] {
