@@ -40,14 +40,19 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeIn 0.7s ease forwards;
+  transition: box-shadow 0.2s, transform 0.2s;
   &:hover {
     box-shadow: 0 4px 16px rgba(230,36,41,0.15);
-    transform: translateY(-2px);
+    transform: translateY(-4px) scale(1.03);
   }
   @media (max-width: 600px) {
     padding: 0.7rem 0.3rem;
     min-width: 0;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
   }
 `;
 const Img = styled.img`
@@ -84,9 +89,13 @@ const AddButton = styled.button`
   margin-top: 0.7rem;
   cursor: pointer;
   font-size: 0.95rem;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s;
   &:hover {
     background: #e62429;
+    transform: scale(1.07);
+  }
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
