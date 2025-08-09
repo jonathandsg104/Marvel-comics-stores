@@ -16,12 +16,17 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.7s ease forwards;
   @media (max-width: 600px) {
     max-width: 100vw;
     margin: 0.5rem 0;
     padding: 1rem 0.2rem;
     border-radius: 0;
     box-shadow: none;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
   }
 `;
 const Img = styled.img`
