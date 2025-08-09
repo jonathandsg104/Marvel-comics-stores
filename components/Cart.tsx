@@ -22,13 +22,13 @@ const CartContainer = styled.div`
   background: #fff;
   box-shadow: -2px 0 8px rgba(0,0,0,0.08);
   padding: 2rem 1rem 1rem 1rem;
-  z-index: 100;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   opacity: 0;
   transform: translateX(40px);
   animation: cartFadeIn 0.7s cubic-bezier(.4,1.3,.6,1) forwards;
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     width: 100vw;
     left: 0;
     right: 0;
