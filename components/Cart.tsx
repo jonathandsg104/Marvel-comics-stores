@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
@@ -125,6 +125,8 @@ const ClearBtn = styled.button`
 // Componente visual do carrinho
 // Comentários explicativos em cada parte do código
 const Cart: React.FC = () => {
+  // Estado para abrir/fechar carrinho no mobile
+  const [open, setOpen] = useState(true);
   // Estado do cupom digitado e cupom aplicado
   const [couponInput, setCouponInput] = React.useState('');
   const [appliedCoupon, setAppliedCoupon] = React.useState<null | typeof COUPONS[0]>(null);
@@ -152,8 +154,59 @@ const Cart: React.FC = () => {
   }
   const totalWithDiscount = total - discount;
 
+  // Detecta se está em mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 900;
+
+  // Botão flutuante para abrir carrinho no mobile
+  if (isMobile && !open) {
+    return (
+      <button
+        style={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          zIndex: 9999,
+          background: '#e62429',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '50%',
+          width: 56,
+          height: 56,
+          fontSize: 28,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          cursor: 'pointer',
+        }}
+        aria-label="Abrir carrinho"
+        onClick={() => setOpen(true)}
+      >
+        🛒
+      </button>
+    );
+  }
+
   return (
-    <CartContainer>
+    <CartContainer style={isMobile ? { zIndex: 9999 } : {}}>
+      {isMobile && (
+        <button
+          style={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            background: '#e62429',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '4px 12px',
+            fontSize: 18,
+            cursor: 'pointer',
+            zIndex: 10000,
+          }}
+          aria-label="Fechar carrinho"
+          onClick={() => setOpen(false)}
+        >
+          ✕
+        </button>
+      )}
       <CartTitle>Carrinho</CartTitle>
       {/* Campo para inserir cupom */}
       <form
