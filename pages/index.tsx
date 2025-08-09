@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { generateMockComics, markRandomRares, Comic } from "../utils/sample-data";
 
@@ -25,6 +26,12 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  &:hover {
+    box-shadow: 0 4px 16px rgba(230,36,41,0.15);
+    transform: translateY(-2px);
+  }
 `;
 const Img = styled.img`
   width: 100%;
@@ -63,6 +70,7 @@ const PageButton = styled.button`
 // Comentários explicativos em cada parte do código
 const ITEMS_PER_PAGE = 8;
 
+
 const HomePage: React.FC = () => {
   // Gerar HQs mockadas e marcar 10% como raras
   const comics = useMemo(() => markRandomRares(generateMockComics(30)), []);
@@ -74,6 +82,14 @@ const HomePage: React.FC = () => {
   const pageComics = comics.slice(start, end);
   const totalPages = Math.ceil(comics.length / ITEMS_PER_PAGE);
 
+  // Hook do Next.js para navegação
+  const router = useRouter();
+
+  // Função para navegar para a página de detalhes ao clicar em uma HQ
+  const handleCardClick = (id: number) => {
+    router.push(`/hq/${id}`);
+  };
+
   return (
     <Container>
       {/* Título da página */}
@@ -81,7 +97,7 @@ const HomePage: React.FC = () => {
       {/* Grid de HQs */}
       <Grid>
         {pageComics.map((comic) => (
-          <Card key={comic.id}>
+          <Card key={comic.id} onClick={() => handleCardClick(comic.id)}>
             <Img src={comic.thumbnail} alt={comic.title} />
             <h2>{comic.title}</h2>
             <p>{comic.description}</p>
