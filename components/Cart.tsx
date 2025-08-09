@@ -1,0 +1,120 @@
+import React from "react";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import { removeFromCart, setQuantity, clearCart } from "../stores/slices/cartSlice";
+
+// Styled Components para o carrinho
+const CartContainer = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.08);
+  padding: 2rem 1rem 1rem 1rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+`;
+const CartTitle = styled.h2`
+  margin-bottom: 1.5rem;
+  text-align: center;
+`;
+const CartList = styled.ul`
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+`;
+const CartItem = styled.li`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+`;
+const Img = styled.img`
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+`;
+const RemoveBtn = styled.button`
+  background: #e62429;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.7rem;
+  margin-left: auto;
+  cursor: pointer;
+`;
+const QuantityInput = styled.input`
+  width: 40px;
+  margin: 0 0.5rem;
+  text-align: center;
+`;
+const Total = styled.div`
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  text-align: right;
+`;
+const ClearBtn = styled.button`
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+`;
+
+// Componente visual do carrinho
+// Comentários explicativos em cada parte do código
+const Cart: React.FC = () => {
+  // Seleciona os itens do carrinho do estado global
+  const items = useSelector((state: RootState) => state.cart.items);
+  const dispatch = useDispatch();
+
+  // Calcula o valor total do carrinho
+  const total = items.reduce((sum, item) => sum + item.comic.price * item.quantity, 0);
+
+  return (
+    <CartContainer>
+      <CartTitle>Carrinho</CartTitle>
+      <CartList>
+        {items.length === 0 && <li>Seu carrinho está vazio.</li>}
+        {items.map((item) => (
+          <CartItem key={item.comic.id}>
+            <Img src={item.comic.thumbnail} alt={item.comic.title} />
+            <div>
+              <div>{item.comic.title}</div>
+              <div>R$ {item.comic.price}</div>
+              <div>
+                {/* Input para alterar quantidade */}
+                <label>Qtd:</label>
+                <QuantityInput
+                  type="number"
+                  min={1}
+                  value={item.quantity}
+                  onChange={e => dispatch(setQuantity({ id: item.comic.id, quantity: Number(e.target.value) }))}
+                />
+              </div>
+            </div>
+            {/* Botão para remover item */}
+            <RemoveBtn onClick={() => dispatch(removeFromCart(item.comic.id))}>Remover</RemoveBtn>
+          </CartItem>
+        ))}
+      </CartList>
+      <Total>Total: R$ {total}</Total>
+      {/* Botão para limpar carrinho */}
+      <ClearBtn onClick={() => dispatch(clearCart())}>Limpar Carrinho</ClearBtn>
+    </CartContainer>
+  );
+};
+
+export default Cart;
