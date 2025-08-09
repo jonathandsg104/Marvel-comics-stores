@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../stores/slices/cartSlice";
 import styled from "styled-components";
 import { generateMockComics, markRandomRares, Comic } from "../utils/sample-data";
 
@@ -52,6 +54,21 @@ const Pagination = styled.div`
   gap: 1rem;
   margin-top: 2rem;
 `;
+const AddButton = styled.button`
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  margin-top: 0.7rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  &:hover {
+    background: #e62429;
+  }
+`;
+
 const PageButton = styled.button`
   background: #e62429;
   color: #fff;
@@ -90,6 +107,15 @@ const HomePage: React.FC = () => {
     router.push(`/hq/${id}`);
   };
 
+  // Hook do Redux para disparar ações
+  const dispatch = useDispatch();
+
+  // Função para adicionar ao carrinho
+  const handleAddToCart = (comic: Comic, e: React.MouseEvent) => {
+    e.stopPropagation(); // Evita navegação ao clicar no botão
+    dispatch(addToCart(comic));
+  };
+
   return (
     <Container>
       {/* Título da página */}
@@ -104,6 +130,8 @@ const HomePage: React.FC = () => {
             <strong>R$ {comic.price}</strong>
             {/* Badge de raro */}
             {comic.rare && <RareBadge>Raro</RareBadge>}
+            {/* Botão para adicionar ao carrinho */}
+            <AddButton onClick={e => handleAddToCart(comic, e)}>Adicionar ao Carrinho</AddButton>
           </Card>
         ))}
       </Grid>

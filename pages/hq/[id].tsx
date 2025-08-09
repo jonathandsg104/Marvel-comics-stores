@@ -1,6 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../stores/slices/cartSlice";
 import { generateMockComics, markRandomRares, Comic } from "../../utils/sample-data";
 
 // Styled Components para a página de detalhes
@@ -28,6 +30,20 @@ const RareBadge = styled.span`
   border-radius: 4px;
   margin-top: 0.5rem;
 `;
+const AddButton = styled.button`
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1.5rem;
+  margin-top: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+  &:hover {
+    background: #e62429;
+  }
+`;
 const BackButton = styled.button`
   margin-top: 2rem;
   background: #e62429;
@@ -43,6 +59,7 @@ const BackButton = styled.button`
 // Comentários explicativos em cada parte do código
 const ComicDetail: React.FC = () => {
   const router = useRouter();
+
   // Pega o id da HQ pela URL
   const { id } = router.query;
 
@@ -50,6 +67,14 @@ const ComicDetail: React.FC = () => {
   const comics: Comic[] = React.useMemo(() => markRandomRares(generateMockComics(30)), []);
   // Busca a HQ pelo id
   const comic = comics.find((c) => c.id === Number(id));
+
+  // Hook do Redux para disparar ações
+  const dispatch = useDispatch();
+
+  // Função para adicionar ao carrinho
+  const handleAddToCart = () => {
+    if (comic) dispatch(addToCart(comic));
+  };
 
   // Se não encontrar, mostra mensagem
   if (!comic) {
@@ -68,6 +93,8 @@ const ComicDetail: React.FC = () => {
       <strong>R$ {comic.price}</strong>
       {/* Badge de raro */}
       {comic.rare && <RareBadge>Raro</RareBadge>}
+      {/* Botão para adicionar ao carrinho */}
+      <AddButton onClick={handleAddToCart}>Adicionar ao Carrinho</AddButton>
       {/* Botão para voltar */}
       <BackButton onClick={() => router.back()}>Voltar</BackButton>
     </Container>
