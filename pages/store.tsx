@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cart from "../components/Cart";
-// Botão flutuante para abrir o carrinho
 const CartButton = styled.button`
   position: fixed;
   bottom: 32px;
   right: 32px;
   z-index: 10000;
-  background: #e62429;
-  color: #fff;
-  border: none;
+  background: #fff;
+  color: #e62429;
+  border: 2px solid #e62429;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -19,11 +18,29 @@ const CartButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
   &:hover {
-    background: #b71c1c;
+    background: #e62429;
+    color: #fff;
     transform: scale(1.08);
   }
+`;
+const CartBadge = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e62429;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #0003;
+  pointer-events: none;
 `;
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -144,6 +161,14 @@ const ITEMS_PER_PAGE = 8;
 const StorePage: React.FC = () => {
   const cartItems = useSelector((state: any) => state.cart.items);
   const [cartOpen, setCartOpen] = useState(false);
+  // Abre o carrinho automaticamente ao adicionar item
+  const prevCartLength = React.useRef(cartItems.length);
+  React.useEffect(() => {
+    if (cartItems.length > prevCartLength.current) {
+      setCartOpen(true);
+    }
+    prevCartLength.current = cartItems.length;
+  }, [cartItems.length]);
   const router = useRouter();
   // Estado para HQs mockadas
   const [comics, setComics] = useState<Comic[]>([]);
@@ -208,21 +233,15 @@ const StorePage: React.FC = () => {
         </Pagination>
       </Container>
       {/* Botão flutuante para abrir o carrinho, só aparece se houver itens */}
-      {cartItems.length > 0 && !cartOpen && (
-        <CartButton onClick={() => setCartOpen(true)} title="Abrir carrinho">
-          🛒
+      {/* Botão do carrinho sempre visível, com badge de quantidade */}
+      <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
+        <CartButton onClick={() => setCartOpen(v => !v)} title={cartOpen ? "Fechar carrinho" : "Abrir carrinho"} style={{boxShadow: cartOpen ? '0 0 0 4px #e6242940' : undefined}}>
+          <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          {cartItems.length > 0 && <CartBadge>{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</CartBadge>}
         </CartButton>
-      )}
-      {/* Carrinho: só aparece se aberto OU se acabou de adicionar algo */}
-      {(cartOpen || cartItems.length > 0) && (
-        <Cart />
-      )}
-      {/* Botão para fechar o carrinho, só aparece se aberto */}
-      {cartOpen && (
-        <CartButton onClick={() => setCartOpen(false)} title="Fechar carrinho" style={{right: 100}}>
-          ✖
-        </CartButton>
-      )}
+      </div>
+      {/* Carrinho: só aparece se aberto */}
+      {cartOpen && <Cart />}
     </>
   );
 };

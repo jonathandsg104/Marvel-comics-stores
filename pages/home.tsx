@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(30px); }
@@ -72,10 +73,15 @@ const Button = styled.a`
   letter-spacing: 1px;
   transition: background 0.2s, color 0.2s, transform 0.15s;
   animation: ${fadeIn} 1.2s 0.6s backwards;
+  cursor: pointer;
   &:hover {
     background: #e62429;
     color: #fff;
-    transform: scale(1.04);
+    transform: scale(1.08);
+    cursor: pointer;
+  }
+  &:active {
+    transform: scale(0.98);
   }
 `;
 const Footer = styled.footer`
@@ -86,6 +92,7 @@ const Footer = styled.footer`
 `;
 
 export default function HomeLanding() {
+  const router = useRouter();
   return (
     <Wrapper>
       <Logo>Marvel HQ Store</Logo>
@@ -96,12 +103,10 @@ export default function HomeLanding() {
         A Marvel HQ Store é o seu portal para o universo dos quadrinhos Marvel.<br />
         Explore, descubra e adquira suas HQs favoritas com uma experiência moderna, responsiva e segura.
       </Desc>
-      <Link href="/store" passHref legacyBehavior>
-        <Button>
-          <svg width="24" height="24" fill="none" stroke="#e62429" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          Ver Loja
-        </Button>
-      </Link>
+      <Button onClick={() => router.push('/store')}>
+        <svg width="24" height="24" fill="none" stroke="#e62429" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Ver Loja
+      </Button>
       <Footer>
         Desafio Front-end &copy; {new Date().getFullYear()}<br />
         <a href="https://github.com/jonathandsg104/Marvel-comics-stores" target="_blank" rel="noopener noreferrer" style={{color:'#fff'}}>GitHub</a>
