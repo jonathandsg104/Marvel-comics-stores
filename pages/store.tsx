@@ -26,6 +26,7 @@ const BackButton = styled.button`
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cart from "../components/Cart";
+import { useState as useReactState } from "react";
 const CartButton = styled.button`
   position: fixed;
   bottom: 32px;
@@ -276,7 +277,7 @@ const StorePage: React.FC = () => {
         </div>
       )}
       {/* Carrinho: só aparece se aberto */}
-      {cartOpen && <Cart />}
+  {cartOpen && <Cart onClose={() => setCartOpen(false)} />}
     </>
   );
 };

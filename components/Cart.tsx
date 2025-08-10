@@ -124,7 +124,10 @@ const ClearBtn = styled.button`
 
 // Componente visual do carrinho
 // Comentários explicativos em cada parte do código
-const Cart: React.FC = () => {
+interface CartProps {
+  onClose?: () => void;
+}
+const Cart: React.FC<CartProps> = ({ onClose }) => {
   // Estado para abrir/fechar carrinho no mobile
   const [open, setOpen] = useState(true);
   // Estado do cupom digitado e cupom aplicado
@@ -189,27 +192,26 @@ const Cart: React.FC = () => {
 
   return (
     <CartContainer style={isMobile ? { zIndex: 9999 } : {}}>
-      {isMobile && (
-        <button
-          style={{
-            position: 'absolute',
-            top: 8,
-            right: 8,
-            background: '#e62429',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 8,
-            padding: '4px 12px',
-            fontSize: 18,
-            cursor: 'pointer',
-            zIndex: 10000,
-          }}
-          aria-label="Fechar carrinho"
-          onClick={() => setOpen(false)}
-        >
-          ✕
-        </button>
-      )}
+      {/* Botão de fechar carrinho (desktop e mobile) */}
+      <button
+        style={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          background: '#e62429',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 8,
+          padding: '4px 12px',
+          fontSize: 18,
+          cursor: 'pointer',
+          zIndex: 10000,
+        }}
+        aria-label="Fechar carrinho"
+        onClick={onClose}
+      >
+        ✕
+      </button>
       <CartTitle>Carrinho</CartTitle>
       {/* Campo para inserir cupom */}
       <form
