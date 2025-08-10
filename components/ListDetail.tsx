@@ -1,6 +1,11 @@
 import * as React from "react";
 
-import { User } from "../interfaces";
+
+// Tipo User mínimo para evitar erro de build
+type User = {
+  id: number;
+  name: string;
+};
 
 type ListDetailProps = {
   item: User;
