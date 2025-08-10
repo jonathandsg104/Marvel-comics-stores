@@ -161,7 +161,7 @@ const ComicDetail: React.FC = () => {
       {/* Carrinho: só aparece se aberto */}
       {cartOpen && (
         <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
-          <Cart />
+          <Cart onClose={() => setCartOpen(false)} />
         </div>
       )}
     </>
