@@ -1,3 +1,4 @@
+export {} // Garante que o arquivo seja tratado como módulo pelo TypeScript
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
