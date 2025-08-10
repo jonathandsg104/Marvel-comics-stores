@@ -16,60 +16,7 @@ const Container = styled.div`
   }
 `;
 const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1.2rem;
-  }
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-`;
-const Card = styled.div`
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  opacity: 0;
-  animation: fadeIn 0.7s ease forwards;
-  transition: box-shadow 0.2s, transform 0.2s;
-  &:hover {
-    box-shadow: 0 4px 16px rgba(230,36,41,0.15);
-    transform: translateY(-4px) scale(1.03);
-  }
-  @media (max-width: 600px) {
-    padding: 0.7rem 0.3rem;
-    min-width: 0;
-  }
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-`;
-const Img = styled.img`
-  width: 100%;
-  max-width: 180px;
-  border-radius: 6px;
-  object-fit: cover;
-  aspect-ratio: 2/3;
-  background: #eee;
-  @media (max-width: 600px) {
-    max-width: 120px;
-  }
-`;
-const RareBadge = styled.span`
-  background: #e62429;
-  color: #fff;
+  export { default } from "./home";
   font-size: 0.8rem;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
@@ -186,12 +133,5 @@ const HomePage: React.FC = () => {
           Anterior
         </PageButton>
         <span>Página {page} de {totalPages}</span>
-        <PageButton onClick={() => setPage(page + 1)} disabled={page === totalPages}>
+        export { default } from "./home";
           Próxima
-        </PageButton>
-      </Pagination>
-    </Container>
-  );
-};
-
-export default HomePage;
