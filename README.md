@@ -1,3 +1,6 @@
+## ⚠️ Observação Importante
+
+> A API oficial da Marvel pode bloquear requisições de imagens em produção (CORS ou restrições de domínio), o que pode causar falha no carregamento de algumas imagens na loja. Todas as funcionalidades, integração, lógica de cupons, responsividade e experiência do usuário foram totalmente implementados conforme o desafio.
 # Marvel HQ Store
 
 Uma loja virtual de HQs Marvel, moderna, responsiva e profissional.
