@@ -92,13 +92,17 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1.2rem;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.7rem;
+  }
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 `;
 const Card = styled.div`
@@ -113,13 +117,18 @@ const Card = styled.div`
   opacity: 0;
   animation: fadeIn 0.7s ease forwards;
   transition: box-shadow 0.2s, transform 0.2s;
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
   &:hover {
     box-shadow: 0 4px 16px rgba(230,36,41,0.15);
     transform: translateY(-4px) scale(1.03);
   }
-  @media (max-width: 600px) {
-    padding: 0.7rem 0.3rem;
-    min-width: 0;
+  @media (max-width: 700px) {
+    padding: 0.6rem 0.2rem;
+  }
+  @media (max-width: 480px) {
+    padding: 0.4rem 0.1rem;
   }
   @keyframes fadeIn {
     to { opacity: 1; }
@@ -132,8 +141,12 @@ const Img = styled.img`
   object-fit: cover;
   aspect-ratio: 2/3;
   background: #eee;
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     max-width: 120px;
+  }
+  @media (max-width: 480px) {
+    max-width: 90vw;
+    min-width: 0;
   }
 `;
 const RareBadge = styled.span`
@@ -143,6 +156,12 @@ const RareBadge = styled.span`
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
   margin-top: 0.5rem;
+  word-break: break-word;
+  max-width: 90vw;
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+    padding: 0.18rem 0.4rem;
+  }
 `;
 const Pagination = styled.div`
   display: flex;
@@ -160,6 +179,12 @@ const AddButton = styled.button`
   cursor: pointer;
   font-size: 0.95rem;
   transition: background 0.2s, transform 0.15s;
+  max-width: 100%;
+  box-sizing: border-box;
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+    padding: 0.5rem 0.7rem;
+  }
   &:hover {
     background: #e62429;
     transform: scale(1.07);
@@ -273,8 +298,8 @@ const StorePage: React.FC = () => {
       {/* Botão do carrinho sempre visível, com badge de quantidade */}
       {/* Botão do carrinho só aparece se o carrinho estiver fechado */}
       {!cartOpen && (
-        <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
-          <CartButton onClick={() => setCartOpen(true)} title="Abrir carrinho">
+        <div style={{position:'fixed',bottom:16,right:16,zIndex:10000}}>
+          <CartButton onClick={() => setCartOpen(true)} title="Abrir carrinho" style={{width:'56px',height:'56px',fontSize:'1.7rem'}}>
             <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             {cartItems.length > 0 && <CartBadge>{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</CartBadge>}
           </CartButton>
