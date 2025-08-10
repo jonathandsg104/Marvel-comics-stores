@@ -247,8 +247,12 @@ const StorePage: React.FC = () => {
               <h2>{comic.title}</h2>
               <p>{comic.description}</p>
               <strong>R$ {comic.price}</strong>
-              {/* Badge de raro */}
-              {comic.rare && <RareBadge>Raro</RareBadge>}
+              {/* Badge de raro ou comum */}
+              {comic.rare ? (
+                <RareBadge>Raro</RareBadge>
+              ) : (
+                <RareBadge style={{background:'#222',color:'#fff'}}>Comum</RareBadge>
+              )}
               {/* Botão para adicionar ao carrinho */}
               <AddButton onClick={e => handleAddToCart(comic, e)}>Adicionar ao Carrinho</AddButton>
             </Card>
