@@ -132,6 +132,9 @@ const Cart: React.FC = () => {
   const [appliedCoupon, setAppliedCoupon] = React.useState<null | typeof COUPONS[0]>(null);
   // Seleciona os itens do carrinho do estado global
   const items = useSelector((state: RootState) => state.cart.items);
+  // Debug: loga o estado do carrinho sempre que o componente renderiza
+  // eslint-disable-next-line no-console
+  console.log('Cart renderizou, itens:', items);
   const dispatch = useDispatch();
 
   // Calcula o valor total do carrinho

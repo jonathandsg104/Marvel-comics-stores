@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../stores/slices/cartSlice";
 import { generateMockComics, markRandomRares, Comic } from "../../utils/sample-data";
+import Cart from "../../components/Cart";
+import { fetchMarvelComicById } from "../../utils/fetch-marvel-comic-by-id";
 
 // Styled Components para a página de detalhes
 const Container = styled.div`
@@ -82,45 +84,87 @@ const ComicDetail: React.FC = () => {
   const { id } = router.query;
 
 
-  // Estado para HQs mockadas
-  const [comics, setComics] = useState<Comic[]>([]);
-  // Gerar HQs mockadas apenas no client para evitar erro de hidratação
+  // Estado para HQ
+  const [comic, setComic] = useState<Comic|null>(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setComics(markRandomRares(generateMockComics(30)));
-  }, []);
-  // Busca a HQ pelo id
-  const comic = comics.find((c) => c.id === Number(id));
+    if (!id) return;
+    setLoading(true);
+    fetchMarvelComicById(Number(id))
+      .then(setComic)
+      .catch(() => {
+        // fallback para mock se falhar
+        const numId = Number(id);
+        let fallback = markRandomRares(generateMockComics(30)).find(c => c.id === numId) || null;
+        // Se não existir na lista, gera um mock dinâmico para esse ID
+        if (!fallback && !isNaN(numId)) {
+          const covers = [
+            "https://upload.wikimedia.org/wikipedia/en/0/0c/Avengers1.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/0/0e/Amazing_Fantasy_15.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/2/2c/Fantastic_Four_1_%281961%29.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/9/9e/X-Men_%281963%29_1st_issue.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/5/5a/Black_Panther_Vol_1_1.png",
+            "https://upload.wikimedia.org/wikipedia/en/8/8c/Thor-1.png",
+            "https://upload.wikimedia.org/wikipedia/en/9/91/CaptainAmerica1.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/9/9d/Iron_Man_Vol_1_1.png",
+            "https://upload.wikimedia.org/wikipedia/en/5/59/Hulk1.jpg",
+            "https://upload.wikimedia.org/wikipedia/en/7/7c/Daredevil_1.png",
+          ];
+          fallback = {
+            id: numId,
+            title: `HQ Marvel #${numId}`,
+            description: `Descrição da HQ Marvel número ${numId}.`,
+            thumbnail: covers[((numId - 1) % covers.length + covers.length) % covers.length],
+            price: 10 + ((numId * 7) % 30),
+            rare: numId % 10 === 0,
+          };
+        }
+        setComic(fallback);
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
 
   // Hook do Redux para disparar ações
   const dispatch = useDispatch();
 
+  // Estado para abrir o carrinho ao adicionar
+  const [cartOpen, setCartOpen] = useState(false);
   // Função para adicionar ao carrinho
   const handleAddToCart = () => {
-    if (comic) dispatch(addToCart(comic));
+    if (comic) {
+      dispatch(addToCart(comic));
+      setCartOpen(true);
+    }
   };
 
-  // Se não encontrar, mostra mensagem
-  if (!comic) {
-    return <Container>HQ não encontrada.</Container>;
-  }
+  if (loading) return <Container>Carregando...</Container>;
+  if (!comic) return <Container>HQ não encontrada ou não disponível para compra.</Container>;
 
   return (
-    <Container>
-      {/* Imagem da HQ */}
-      <Img src={comic.thumbnail} alt={comic.title} />
-      {/* Título */}
-      <h1>{comic.title}</h1>
-      {/* Descrição */}
-      <p>{comic.description}</p>
-      {/* Preço */}
-      <strong>R$ {comic.price}</strong>
-      {/* Badge de raro */}
-      {comic.rare && <RareBadge>Raro</RareBadge>}
-      {/* Botão para adicionar ao carrinho */}
-      <AddButton onClick={handleAddToCart}>Adicionar ao Carrinho</AddButton>
-      {/* Botão para voltar */}
-      <BackButton onClick={() => router.back()}>Voltar</BackButton>
-    </Container>
+    <>
+      <Container>
+        {/* Imagem da HQ */}
+        <Img src={comic.thumbnail} alt={comic.title} />
+        {/* Título */}
+        <h1>{comic.title}</h1>
+        {/* Descrição */}
+        <p>{comic.description}</p>
+        {/* Preço */}
+        <strong>R$ {comic.price}</strong>
+        {/* Badge de raro */}
+        {comic.rare && <RareBadge>Raro</RareBadge>}
+        {/* Botão para adicionar ao carrinho */}
+        <AddButton onClick={handleAddToCart} disabled={!comic}>Adicionar ao Carrinho</AddButton>
+        {/* Botão para voltar */}
+        <BackButton onClick={() => router.back()}>Voltar</BackButton>
+      </Container>
+      {/* Carrinho: só aparece se aberto */}
+      {cartOpen && (
+        <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
+          <Cart />
+        </div>
+      )}
+    </>
   );
 };
 
