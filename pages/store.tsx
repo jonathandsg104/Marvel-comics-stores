@@ -266,12 +266,15 @@ const StorePage: React.FC = () => {
       </Container>
       {/* Botão flutuante para abrir o carrinho, só aparece se houver itens */}
       {/* Botão do carrinho sempre visível, com badge de quantidade */}
-      <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
-        <CartButton onClick={() => setCartOpen(v => !v)} title={cartOpen ? "Fechar carrinho" : "Abrir carrinho"} style={{boxShadow: cartOpen ? '0 0 0 4px #e6242940' : undefined}}>
-          <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          {cartItems.length > 0 && <CartBadge>{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</CartBadge>}
-        </CartButton>
-      </div>
+      {/* Botão do carrinho só aparece se o carrinho estiver fechado */}
+      {!cartOpen && (
+        <div style={{position:'fixed',bottom:32,right:32,zIndex:10000}}>
+          <CartButton onClick={() => setCartOpen(true)} title="Abrir carrinho">
+            <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            {cartItems.length > 0 && <CartBadge>{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</CartBadge>}
+          </CartButton>
+        </div>
+      )}
       {/* Carrinho: só aparece se aberto */}
       {cartOpen && <Cart />}
     </>
