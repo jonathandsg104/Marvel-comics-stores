@@ -1,3 +1,28 @@
+const TopBar = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+`;
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  color: #e62429;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: #e6242912;
+    color: #b71c1c;
+  }
+`;
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cart from "../components/Cart";
@@ -204,6 +229,13 @@ const StorePage: React.FC = () => {
   return (
     <>
       <Container>
+        <TopBar>
+          <BackButton onClick={() => router.push("/")}
+            title="Voltar para página inicial">
+            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            Início
+          </BackButton>
+        </TopBar>
         {/* Título da página */}
         <Title>Loja Marvel HQs</Title>
         {/* Grid de HQs */}
