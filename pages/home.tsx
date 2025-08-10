@@ -55,22 +55,7 @@ const Desc = styled.p`
   margin-bottom: 2rem;
   animation: ${fadeIn} 1.2s 0.4s backwards;
 `;
-const Techs = styled.div`
-  display: flex;
-  gap: 1.2rem;
-  margin-bottom: 2.2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-const Tech = styled.span`
-  background: #fff2;
-  border-radius: 6px;
-  padding: 0.4rem 1.1rem;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  color: #fff;
-  border: 1px solid #fff3;
-`;
+// Removido bloco de tecnologias para visual mais profissional
 const Button = styled.a`
   display: inline-flex;
   align-items: center;
@@ -108,17 +93,10 @@ export default function HomeLanding() {
         <Banner src="https://upload.wikimedia.org/wikipedia/commons/0/0c/MarvelLogo.svg" alt="Marvel Banner" />
       </BannerWrapper>
       <Desc>
-        Bem-vindo à sua loja de quadrinhos Marvel!<br />
-        Projeto mobile first, com integração à API oficial da Marvel, carrinho, cupons, animações e muito mais.
+        A Marvel HQ Store é o seu portal para o universo dos quadrinhos Marvel.<br />
+        Explore, descubra e adquira suas HQs favoritas com uma experiência moderna, responsiva e segura.
       </Desc>
-      <Techs>
-        <Tech>Next.js</Tech>
-        <Tech>Redux Toolkit</Tech>
-        <Tech>Styled Components</Tech>
-        <Tech>Cypress</Tech>
-        <Tech>Marvel API</Tech>
-      </Techs>
-      <Link href="/index" passHref legacyBehavior>
+      <Link href="/store" passHref legacyBehavior>
         <Button>
           <svg width="24" height="24" fill="none" stroke="#e62429" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           Ver Loja
