@@ -10,8 +10,12 @@ const fadeIn = keyframes`
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #e62429 0%, #222 100%), url('https://www.transparenttextures.com/patterns/comic.png');
-  background-blend-mode: multiply;
+  background: 
+    linear-gradient(135deg, #000b 0%, #222c 100%),
+    url('/image/spider.jpg') center center/cover no-repeat,
+    linear-gradient(135deg, #e62429 0%, #222 100%),
+    url('https://www.transparenttextures.com/patterns/comic.png');
+  background-blend-mode: darken, multiply, multiply;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,9 +30,25 @@ const Logo = styled.h1`
   font-size: 3.2rem;
   letter-spacing: 2px;
   color: #fff;
-  text-shadow: 2px 2px 0 #e62429, 4px 4px 0 #111;
   margin-bottom: 1.2rem;
   animation: ${fadeIn} 1s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+`;
+const MarvelMark = styled.span`
+  background: #e62429;
+  color: #fff;
+  font-family: Impact, 'Bangers', sans-serif;
+  font-weight: bold;
+  font-size: 3.2rem;
+  letter-spacing: 2px;
+  padding: 0.1em 0.5em 0.08em 0.5em;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px #e6242920;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px #b71c1c60;
+  margin-right: 0.5em;
 `;
 const BannerWrapper = styled.div`
   background: #fff;
@@ -95,7 +115,7 @@ export default function HomeLanding() {
   const router = useRouter();
   return (
     <Wrapper>
-      <Logo>Marvel HQ Store</Logo>
+  <Logo><MarvelMark>MARVEL</MarvelMark> HQ Store</Logo>
       <BannerWrapper>
         <Banner src="https://upload.wikimedia.org/wikipedia/commons/0/0c/MarvelLogo.svg" alt="Marvel Banner" />
       </BannerWrapper>
@@ -108,8 +128,8 @@ export default function HomeLanding() {
         Ver Loja
       </Button>
       <Footer>
-        Desafio Front-end &copy; {new Date().getFullYear()}<br />
-        <a href="https://github.com/jonathandsg104/Marvel-comics-stores" target="_blank" rel="noopener noreferrer" style={{color:'#fff'}}>GitHub</a>
+        Desafio Front-end &copy; 2025<br />
+        Jonathan Gomes
       </Footer>
     </Wrapper>
   );
