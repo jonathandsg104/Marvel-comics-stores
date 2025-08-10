@@ -35,6 +35,9 @@ const Logo = styled.h1`
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 const MarvelMark = styled.span`
   background: #e62429;
@@ -49,6 +52,9 @@ const MarvelMark = styled.span`
   line-height: 1.1;
   text-shadow: 0 2px 8px #b71c1c60;
   margin-right: 0.5em;
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 const BannerWrapper = styled.div`
   background: #fff;
