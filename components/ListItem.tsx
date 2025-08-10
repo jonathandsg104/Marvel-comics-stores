@@ -1,7 +1,12 @@
 import React from "react";
 import Link from "next/link";
 
-import { User } from "../interfaces";
+
+// Tipo User mínimo para evitar erro de build
+type User = {
+  id: number;
+  name: string;
+};
 
 type Props = {
   data: User;
